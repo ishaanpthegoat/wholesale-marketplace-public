@@ -1,7 +1,14 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 import type { Database } from "@/types/database";
+
+/**
+ * `createServerClient` is overloaded, and TypeScript contextually types the
+ * callback against the deprecated get/set/remove overload first — so `setAll`
+ * arrives as implicit `any`. Annotating the parameter is the fix.
+ */
+type CookieToSet = { name: string; value: string; options: CookieOptions };
 
 /**
  * Server-side client. Runs under the user's JWT, so RLS applies — a query
@@ -19,7 +26,7 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options),
