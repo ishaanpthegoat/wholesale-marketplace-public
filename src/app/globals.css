@@ -1,0 +1,171 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Pallet design tokens — see docs/BRAND.md
+   The .dc.html prototype in design/ is the layout canon. These are its tokens.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@theme inline {
+  /* ── Brand orange: accent and action only ── */
+  --color-orange-50: #fdf4ec;
+  --color-orange-100: #fbe7d8;
+  --color-orange-200: #f9d9c2;
+  --color-orange-300: #f4a574;
+  --color-orange-400: #ee8342;
+  --color-orange-500: #e8631a;
+  --color-orange-600: #d1590f;
+  --color-orange-700: #b04a0f;
+  --color-orange-800: #8f3b0b;
+  --color-orange-900: #6e2d07;
+
+  /* ── Dune neutrals: the actual UI ── */
+  --color-sand-50: #faf7f2;
+  --color-sand-100: #f4efe6;
+  --color-sand-200: #e7dfd2;
+  --color-sand-300: #d4c8b5;
+  --color-dune-500: #a3937a;
+  --color-ink-600: #6b6259;
+  --color-ink-800: #3a342e;
+  --color-ink-900: #211d19;
+
+  /* ── Status ── */
+  --color-success-100: #e3ede6;
+  --color-success-500: #3f7d5c;
+  --color-success-700: #2f5f45;
+  --color-warning-500: #b4832b;
+  --color-danger-500: #a63a2c;
+  --color-info-500: #4a6b82;
+
+  /* ── shadcn semantic aliases (map primitives onto the brand) ── */
+  --color-background: var(--color-sand-50);
+  --color-foreground: var(--color-ink-900);
+  --color-card: #ffffff;
+  --color-card-foreground: var(--color-ink-900);
+  --color-popover: #ffffff;
+  --color-popover-foreground: var(--color-ink-900);
+  --color-primary: var(--color-orange-700);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-sand-100);
+  --color-secondary-foreground: var(--color-ink-800);
+  --color-muted: var(--color-sand-100);
+  --color-muted-foreground: var(--color-ink-600);
+  --color-accent: var(--color-sand-100);
+  --color-accent-foreground: var(--color-ink-900);
+  --color-destructive: var(--color-danger-500);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--color-sand-200);
+  --color-input: var(--color-sand-200);
+  --color-ring: var(--color-orange-500);
+
+  /* ── Typography ── */
+  --font-display: var(--font-instrument-serif), "Inter Tight", Georgia, serif;
+  --font-heading: var(--font-instrument-sans), "Inter Tight", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* ── Radius: pill buttons, 14px cards. See BRAND.md §4 ── */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-pill: 999px;
+
+  /* ── Shadows: only for things that float ── */
+  --shadow-sm: 0 1px 2px rgba(33, 29, 25, 0.05);
+  --shadow-md: 0 4px 16px rgba(33, 29, 25, 0.08);
+  --shadow-lg: 0 8px 28px rgba(33, 29, 25, 0.14);
+
+  /* ── Motion ── */
+  --ease-out-quint: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-deliberate: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-hover: 120ms;
+  --duration-pop: 160ms;
+  --duration-panel: 200ms;
+  --duration-modal: 250ms;
+  --duration-commit: 400ms;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Focus ring is orange everywhere, on light surfaces and on dark chrome.
+     This is the one place orange is allowed to appear without meaning "primary CTA". */
+  :focus-visible {
+    outline: 2px solid var(--color-orange-500);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-orange-100);
+  }
+
+  /* Headings default to the heading face; the display serif is opt-in only. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer utilities {
+  /* Every price, quantity, percentage, countdown, and table cell. No exceptions.
+     BRAND.md §3. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* The single most important thing making ugly user-uploaded warehouse photos
+     cohere into one palette. BRAND.md §7 / §11(c). */
+  .photo-tone {
+    filter: saturate(0.7) contrast(0.95);
+  }
+
+  .photo-tone-soft {
+    filter: saturate(0.68) contrast(0.95) brightness(0.98);
+  }
+
+  /* Hero treatment: photo pushed under the ink gradient so text stays AAA. */
+  .photo-tone-hero {
+    filter: saturate(0.5) brightness(0.5);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Under an hour left. Slow, once every 2s — a pulse, not a blink. */
+@keyframes urgent-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Nothing bounces, nothing spins, and everything obeys the OS setting. BRAND.md §8. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

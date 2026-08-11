@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_ds/organic-2708f3e0-ef00-4755-a0fe-69dd2aa6dcb9/styles.css">
+<script src="_ds/organic-2708f3e0-ef00-4755-a0fe-69dd2aa6dcb9/_ds_bundle.js"></script>
+<style>
+/* Organic tokens retinted to the Pallet brand (BRAND.md): its shape language and
+   ramps, our palette and type. Any Organic component mounted here inherits these. */
+:root{
+  --color-bg:#FAF7F2; --color-surface:#FFFFFF; --color-text:#211D19; --color-text-muted:#6B6259;
+  --color-border:#E7DFD2;
+  --color-accent:#E8631A; --color-accent-100:#FBE7D8; --color-accent-200:#F9D9C2;
+  --color-accent-300:#F4A574; --color-accent-400:#EE8342; --color-accent-500:#E8631A;
+  --color-accent-600:#D1590F; --color-accent-700:#B04A0F; --color-accent-800:#8F3B0B; --color-accent-900:#6E2D07;
+  --color-accent-2:#7A8A5E; --color-accent-2-500:#3F7D5C; --color-accent-2-100:#E3EDE6; --color-accent-2-700:#2F5F45;
+  --color-neutral-100:#FAF7F2; --color-neutral-200:#F4EFE6; --color-neutral-300:#E7DFD2;
+  --color-neutral-400:#D4C8B5; --color-neutral-500:#A3937A; --color-neutral-600:#6B6259;
+  --color-neutral-800:#3A342E; --color-neutral-900:#211D19;
+  --font-heading:'Inter Tight',system-ui,sans-serif; --font-body:Inter,system-ui,sans-serif;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:14px; --radius-pill:999px;
+  --shadow-sm:0 1px 2px rgba(33,29,25,.05); --shadow-md:0 4px 16px rgba(33,29,25,.08); --shadow-lg:0 8px 28px rgba(33,29,25,.14);
+}
+body{margin:0;background:#E7DFD2;color:#211D19;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#B04A0F;text-decoration:none}
+a:hover{color:#8F3B0B;text-decoration:underline}
+button{font-family:inherit}
+::selection{background:#FBE7D8}
+:focus-visible{outline:2px solid #E8631A;outline-offset:2px}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FAF7F2;display:flex;flex-direction:column">
+
+<!-- ══ SCREEN SWITCHER (prototype chrome) ══ -->
+<div style="position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:9px 20px;background:#211D19;overflow-x:auto">
+  <span style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#A3937A;flex:none">Flow</span>
+  <div style="display:flex;gap:6px">
+    <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="7">
+      <button onClick="{{ tab.go }}" style="height:28px;padding:0 14px;border-radius:999px;border:1px solid {{ tab.border }};background:{{ tab.bg }};color:{{ tab.color }};font-size:12px;font-weight:500;white-space:nowrap;cursor:pointer">{{ tab.label }}</button>
+    </sc-for>
+  </div>
+</div>
+
+<!-- ══ APP HEADER ══ -->
+<header style="background:#211D19;position:relative;z-index:40">
+  <div style="max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:12px 20px">
+    <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;background:none;border:none;padding:0;cursor:pointer;flex:none">
+      <span style="width:28px;height:28px;border-radius:999px;background:#E8631A;display:block"></span>
+      <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.01em;color:#FAF7F2">Pallet</span>
+    </button>
+
+    <div style="display:flex;align-items:center;gap:8px;flex:none;padding:0 4px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A3937A" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      <div>
+        <div style="font-size:11px;color:#A3937A;line-height:1.2">Deliver to</div>
+        <div style="font-size:13px;font-weight:500;color:#FAF7F2;line-height:1.3">Phoenix, AZ 85004</div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;height:42px;border-radius:999px;overflow:hidden;background:#fff;min-width:0">
+      <button style="display:flex;align-items:center;gap:6px;padding:0 16px;background:#F4EFE6;border:none;border-right:1px solid #E7DFD2;font-size:13px;color:#3A342E;cursor:pointer;flex:none">All categories
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B6259" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Search 1,284 live lots — pallets, overstock, customer returns" style="flex:1;min-width:0;border:none;padding:0 16px;font-size:14px;font-family:Inter,sans-serif;color:#211D19;background:#fff">
+      <button onClick="{{ goBrowse }}" style="width:56px;border:none;background:#E8631A;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#211D19" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+      </button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:22px;flex:none">
+      <button onClick="{{ goOffers }}" style="background:none;border:none;padding:0;cursor:pointer;text-align:left">
+        <div style="font-size:11px;color:#A3937A;line-height:1.2">My</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:13px;font-weight:500;color:#FAF7F2;line-height:1.3">Offers</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#E8631A;color:#211D19;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums">{{ offerCount }}</span>
+        </div>
+      </button>
+      <button onClick="{{ goOrder }}" style="background:none;border:none;padding:0;cursor:pointer;text-align:left">
+        <div style="font-size:11px;color:#A3937A;line-height:1.2">My</div>
+        <div style="font-size:13px;font-weight:500;color:#FAF7F2;line-height:1.3">Orders</div>
+      </button>
+      <button onClick="{{ goDealer }}" style="display:flex;align-items:center;gap:9px;background:none;border:none;padding:0;cursor:pointer">
+        <span style="width:30px;height:30px;border-radius:999px;background:#3A342E;display:block;flex:none"></span>
+        <span style="text-align:left">
+          <span style="display:block;font-size:11px;color:#A3937A;line-height:1.2">Northgate Surplus</span>
+          <span style="display:block;font-size:13px;font-weight:500;color:#FAF7F2;line-height:1.3">Switch to selling</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div style="background:#3A342E">
+    <div style="max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:0 20px;height:38px;overflow-x:auto">
+      <sc-for list="{{ navCats }}" as="nc" hint-placeholder-count="8">
+        <button onClick="{{ nc.go }}" style="height:26px;padding:0 12px;border-radius:999px;border:none;background:{{ nc.bg }};color:{{ nc.color }};font-size:13px;font-weight:{{ nc.weight }};white-space:nowrap;cursor:pointer">{{ nc.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+</header>
+
+<main style="flex:1">
+
+<!-- ══════════ HOME ══════════ -->
+<sc-if value="{{ sHome }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Home">
+  <section style="position:relative;background:#211D19;overflow:hidden">
+    <img src="{{ heroImg }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.5) brightness(.5)">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(33,29,25,.92) 0%,rgba(33,29,25,.6) 55%,rgba(33,29,25,.25) 100%)"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;padding:56px 20px 60px">
+      <div style="max-width:560px">
+        <div style="display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 13px;border-radius:999px;background:rgba(232,99,26,.18);border:1px solid rgba(232,99,26,.4);margin-bottom:20px">
+          <span style="width:6px;height:6px;border-radius:999px;background:#E8631A"></span>
+          <span style="font-size:12px;font-weight:500;color:#F4A574">142 lots closing in the next 24 hours</span>
+        </div>
+        <h1 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:44px;line-height:1.08;letter-spacing:-.02em;color:#FAF7F2;margin:0 0 14px">Wholesale lots at 80–95% off retail.</h1>
+        <p style="font-size:16px;line-height:1.55;color:rgba(250,247,242,.72);margin:0 0 26px;max-width:44ch">Verified dealers, manifests attached, freight quoted before you offer. One offer per lot — so the price you see is the price people actually pay.</p>
+        <div style="display:flex;gap:10px">
+          <button onClick="{{ goBrowse }}" style="height:46px;padding:0 24px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#D1590F">Browse live lots</button>
+          <button onClick="{{ goDealer }}" style="height:46px;padding:0 24px;border-radius:999px;border:1px solid rgba(250,247,242,.3);background:transparent;color:#FAF7F2;font-size:15px;font-weight:500;cursor:pointer" style-hover="background:rgba(250,247,242,.08)">Sell your overstock</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:32px 20px 0">
+    <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ catCircles }}" as="cc" hint-placeholder-count="6">
+        <button onClick="{{ goBrowse }}" style="background:none;border:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <span style="display:block;width:100%;aspect-ratio:1/1;border-radius:999px;overflow:hidden;background:#F4EFE6;border:1px solid #E7DFD2">
+            <img src="{{ cc.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.68) contrast(.95)">
+          </span>
+          <span style="font-size:14px;font-weight:500;color:#211D19">{{ cc.name }}</span>
+          <span style="font-size:12px;color:#A3937A;font-variant-numeric:tabular-nums;margin-top:-6px">{{ cc.count }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:40px 20px 0">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+      <h2 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.01em;margin:0">Closing soon</h2>
+      <button onClick="{{ goBrowse }}" style="background:none;border:none;padding:0;font-size:14px;font-weight:500;color:#B04A0F;cursor:pointer">See all 142 →</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ closingLots }}" as="lot" hint-placeholder-count="4">
+        <button onClick="{{ lot.open }}" style="text-align:left;background:#fff;border:1px solid #E7DFD2;border-radius:14px;overflow:hidden;padding:0;cursor:pointer;display:flex;flex-direction:column" style-hover="border-color:#D4C8B5">
+          <span style="display:block;position:relative;aspect-ratio:4/3;background:#F4EFE6">
+            <img src="{{ lot.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(.95)">
+            <span style="position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;background:#FBE7D8;color:#B04A0F;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">{{ lot.discount }} off</span>
+            <span style="position:absolute;bottom:10px;right:10px;display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;background:rgba(33,29,25,.82);color:#FAF7F2;font-size:12px;font-weight:500;font-variant-numeric:tabular-nums">{{ lot.closes }}</span>
+          </span>
+          <span style="display:block;padding:14px 16px 16px">
+            <span style="display:block;font-size:15px;font-weight:500;line-height:1.35;color:#211D19;margin-bottom:6px">{{ lot.title }}</span>
+            <span style="display:block;font-size:12px;color:#A3937A;margin-bottom:10px;font-variant-numeric:tabular-nums">{{ lot.meta }}</span>
+            <span style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:#211D19">{{ lot.price }}</span>
+              <span style="font-size:13px;color:#A3937A;text-decoration:line-through;font-variant-numeric:tabular-nums">{{ lot.msrp }}</span>
+            </span>
+            <span style="display:flex;align-items:center;gap:6px;margin-top:10px">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3F7D5C" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 2.1 3.2-.4 1 3 2.9 1.4-1 3 1 3-2.9 1.4-1 3-3.2-.4L12 22l-2.4-2.1-3.2.4-1-3L2.5 15.9l1-3-1-3 2.9-1.4 1-3 3.2.4z"></path><path d="M9 12l2 2 4-4"></path></svg>
+              <span style="font-size:12px;color:#6B6259">{{ lot.dealer }}</span>
+            </span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:40px 20px 0">
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ trustCards }}" as="t" hint-placeholder-count="3">
+        <div style="background:#F4EFE6;border-radius:14px;padding:24px 26px">
+          <div style="width:38px;height:38px;border-radius:999px;background:#FBE7D8;display:flex;align-items:center;justify-content:center;margin-bottom:14px">{{ t.icon }}</div>
+          <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px;color:#211D19;margin-bottom:6px">{{ t.title }}</div>
+          <div style="font-size:14px;line-height:1.5;color:#6B6259">{{ t.body }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:40px 20px 56px">
+    <h2 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.01em;margin:0 0 16px">Because you bought kitchen appliances</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ recLots }}" as="lot" hint-placeholder-count="4">
+        <button onClick="{{ lot.open }}" style="text-align:left;background:#fff;border:1px solid #E7DFD2;border-radius:14px;overflow:hidden;padding:0;cursor:pointer" style-hover="border-color:#D4C8B5">
+          <span style="display:block;aspect-ratio:4/3;background:#F4EFE6">
+            <img src="{{ lot.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(.95)">
+          </span>
+          <span style="display:block;padding:14px 16px 16px">
+            <span style="display:block;font-size:15px;font-weight:500;line-height:1.35;color:#211D19;margin-bottom:6px">{{ lot.title }}</span>
+            <span style="display:block;font-size:12px;color:#A3937A;margin-bottom:10px;font-variant-numeric:tabular-nums">{{ lot.meta }}</span>
+            <span style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:#211D19">{{ lot.price }}</span>
+              <span style="display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;background:#FBE7D8;color:#B04A0F;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">{{ lot.discount }}</span>
+            </span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ══════════ BROWSE / SEARCH RESULTS ══════════ -->
+<sc-if value="{{ sBrowse }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Search results" style="max-width:1440px;margin:0 auto;padding:20px 20px 60px">
+  <div style="font-size:13px;color:#6B6259;margin-bottom:16px">Home / <span style="color:#211D19">Mixed Lots</span></div>
+  <div style="display:grid;grid-template-columns:248px minmax(0,1fr);gap:24px;align-items:start">
+
+    <aside style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:20px;position:sticky;top:96px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
+        <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:16px">Filters</span>
+        <button onClick="{{ clearFilters }}" style="background:none;border:none;padding:0;font-size:13px;color:#B04A0F;cursor:pointer">Clear</button>
+      </div>
+      <sc-for list="{{ filterGroups }}" as="fg" hint-placeholder-count="4">
+        <div style="border-top:1px solid #F4EFE6;padding:16px 0 4px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B6259;margin-bottom:12px">{{ fg.label }}</div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ fg.items }}" as="fi" hint-placeholder-count="4">
+              <button onClick="{{ fi.toggle }}" style="display:flex;align-items:center;gap:10px;background:none;border:none;padding:0;cursor:pointer;text-align:left;width:100%">
+                <span style="width:18px;height:18px;border-radius:6px;border:2px solid {{ fi.boxBorder }};background:{{ fi.boxBg }};display:flex;align-items:center;justify-content:center;flex:none">{{ fi.check }}</span>
+                <span style="flex:1;font-size:14px;color:#3A342E">{{ fi.label }}</span>
+                <span style="font-size:12px;color:#A3937A;font-variant-numeric:tabular-nums">{{ fi.count }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="border-top:1px solid #F4EFE6;padding:16px 0 0">
+        <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B6259;margin-bottom:12px">Max price</div>
+        <input type="range" min="1000" max="20000" step="500" value="{{ priceCap }}" onChange="{{ setPriceCap }}" style="width:100%;accent-color:#E8631A">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#6B6259;font-variant-numeric:tabular-nums;margin-top:6px"><span>$1,000</span><span style="font-weight:600;color:#211D19">{{ priceCapLabel }}</span></div>
+      </div>
+    </aside>
+
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #E7DFD2;border-radius:12px;padding:12px 16px;margin-bottom:14px">
+        <div style="font-size:14px;color:#3A342E"><span style="font-weight:600">{{ resultCount }}</span> lots · <span style="color:#6B6259">{{ activeFilterLabel }}</span></div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="display:flex;background:#F4EFE6;border-radius:999px;padding:3px">
+            <sc-for list="{{ viewToggle }}" as="v" hint-placeholder-count="2">
+              <button onClick="{{ v.set }}" style="height:28px;padding:0 14px;border:none;border-radius:999px;background:{{ v.bg }};color:{{ v.color }};font-size:13px;font-weight:500;cursor:pointer">{{ v.label }}</button>
+            </sc-for>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#6B6259">Sort
+            <select value="{{ sort }}" onChange="{{ setSort }}" style="height:34px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;padding:0 12px;font-size:13px;font-family:Inter,sans-serif;color:#211D19;cursor:pointer">
+              <option>Closing soonest</option>
+              <option>Biggest discount</option>
+              <option>Price: low to high</option>
+              <option>Nearest to me</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <sc-if value="{{ listView }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:200px minmax(0,1fr) 232px;gap:20px;background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:16px" style-hover="border-color:#D4C8B5">
+            <button onClick="{{ r.open }}" style="padding:0;border:none;background:#F4EFE6;border-radius:10px;overflow:hidden;aspect-ratio:4/3;cursor:pointer">
+              <img src="{{ r.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(.95)">
+            </button>
+            <div style="min-width:0">
+              <button onClick="{{ r.open }}" style="background:none;border:none;padding:0;text-align:left;cursor:pointer">
+                <span style="display:block;font-family:'Inter Tight',sans-serif;font-weight:600;font-size:18px;line-height:1.3;color:#211D19;margin-bottom:8px">{{ r.title }}</span>
+              </button>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3F7D5C" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 2l2.4 2.1 3.2-.4 1 3 2.9 1.4-1 3 1 3-2.9 1.4-1 3-3.2-.4L12 22l-2.4-2.1-3.2.4-1-3L2.5 15.9l1-3-1-3 2.9-1.4 1-3 3.2.4z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                <span style="font-size:13px;color:#6B6259">{{ r.dealer }} · {{ r.rating }} · {{ r.location }}</span>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ r.tags }}" as="tg" hint-placeholder-count="3">
+                  <span style="display:inline-flex;align-items:center;height:24px;padding:0 11px;border-radius:999px;background:#F4EFE6;color:#3A342E;font-size:12px;font-weight:500">{{ tg }}</span>
+                </sc-for>
+              </div>
+              <div style="font-size:13px;line-height:1.5;color:#6B6259;margin-top:10px">{{ r.blurb }}</div>
+            </div>
+            <div style="border-left:1px solid #F4EFE6;padding-left:20px;display:flex;flex-direction:column">
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.015em;font-variant-numeric:tabular-nums;color:#211D19">{{ r.price }}</span>
+                <span style="display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;background:#FBE7D8;color:#B04A0F;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">{{ r.discount }}</span>
+              </div>
+              <div style="font-size:12px;color:#A3937A;font-variant-numeric:tabular-nums;margin-top:4px">Retail {{ r.msrp }} · {{ r.perUnit }}</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:12px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="{{ r.clockColor }}" stroke-width="2.75" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                <span style="font-size:13px;font-weight:500;color:{{ r.clockColor }};font-variant-numeric:tabular-nums">Closes in {{ r.closes }}</span>
+              </div>
+              <div style="font-size:12px;color:#6B6259;margin-top:6px;font-variant-numeric:tabular-nums">{{ r.offers }} offers so far</div>
+              <div style="flex:1;min-height:12px"></div>
+              <button onClick="{{ r.open }}" style="height:40px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:14px;font-weight:600;cursor:pointer;width:100%" style-hover="background:#D1590F">Make an offer</button>
+              <button style="height:36px;margin-top:8px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;color:#3A342E;font-size:13px;font-weight:500;cursor:pointer;width:100%" style-hover="background:#F4EFE6">Watch</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ gridView }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="6">
+          <button onClick="{{ r.open }}" style="text-align:left;background:#fff;border:1px solid #E7DFD2;border-radius:14px;overflow:hidden;padding:0;cursor:pointer" style-hover="border-color:#D4C8B5">
+            <span style="display:block;position:relative;aspect-ratio:4/3;background:#F4EFE6">
+              <img src="{{ r.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(.95)">
+              <span style="position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;background:#FBE7D8;color:#B04A0F;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">{{ r.discount }}</span>
+            </span>
+            <span style="display:block;padding:14px 16px 16px">
+              <span style="display:block;font-size:15px;font-weight:500;line-height:1.35;color:#211D19;margin-bottom:8px">{{ r.title }}</span>
+              <span style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+                <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:22px;font-variant-numeric:tabular-nums;color:#211D19">{{ r.price }}</span>
+                <span style="font-size:13px;color:#A3937A;text-decoration:line-through;font-variant-numeric:tabular-nums">{{ r.msrp }}</span>
+              </span>
+              <span style="display:block;font-size:12px;color:#6B6259;font-variant-numeric:tabular-nums">{{ r.dealer }} · closes in {{ r.closes }}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ LOT DETAIL ══════════ -->
+<sc-if value="{{ sLot }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Lot detail" style="max-width:1440px;margin:0 auto;padding:20px 20px 60px">
+  <div style="font-size:13px;color:#6B6259;margin-bottom:16px">Home / Mixed Lots / <span style="color:#211D19">{{ lotTitle }}</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;align-items:start">
+
+    <div>
+      <div style="border-radius:14px;overflow:hidden;background:#F4EFE6;border:1px solid #E7DFD2;aspect-ratio:4/3">
+        <img src="{{ lotHero }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.72) contrast(.95)">
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px">
+        <sc-for list="{{ lotThumbs }}" as="th" hint-placeholder-count="5">
+          <button onClick="{{ th.pick }}" style="padding:0;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:#F4EFE6;border:2px solid {{ th.border }};cursor:pointer">
+            <img src="{{ th.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(.95)">
+          </button>
+        </sc-for>
+      </div>
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:18px 20px;margin-top:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:16px">Manifest</span>
+          <button style="height:32px;padding:0 14px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;font-size:13px;font-weight:500;color:#3A342E;cursor:pointer" style-hover="background:#F4EFE6">Download CSV</button>
+        </div>
+        <div style="font-size:13px;color:#6B6259;margin-bottom:12px;font-variant-numeric:tabular-nums">4,180 rows · verified against photos by Pallet on Aug 6</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ manifestMix }}" as="m" hint-placeholder-count="4">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:#3A342E">{{ m.label }}</span><span style="color:#6B6259;font-variant-numeric:tabular-nums">{{ m.pct }}</span></div>
+              <div style="height:7px;border-radius:999px;background:#F4EFE6"><div style="height:100%;border-radius:999px;background:{{ m.color }};width:{{ m.pct }}"></div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h1 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:30px;line-height:1.2;letter-spacing:-.015em;margin:0 0 10px">{{ lotTitle }}</h1>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span style="display:flex;align-items:center;gap:6px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3F7D5C" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 2.1 3.2-.4 1 3 2.9 1.4-1 3 1 3-2.9 1.4-1 3-3.2-.4L12 22l-2.4-2.1-3.2.4-1-3L2.5 15.9l1-3-1-3 2.9-1.4 1-3 3.2.4z"></path><path d="M9 12l2 2 4-4"></path></svg>
+          <a href="#dealer">Kestrel Liquidation</a>
+        </span>
+        <span style="color:#D4C8B5">·</span>
+        <span style="font-size:14px;color:#6B6259;font-variant-numeric:tabular-nums">4.8 (312 deals)</span>
+        <span style="color:#D4C8B5">·</span>
+        <span style="font-size:14px;color:#6B6259">Reno, NV</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px">
+        <sc-for list="{{ lotTags }}" as="tg" hint-placeholder-count="4">
+          <span style="display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:999px;background:#F4EFE6;color:#3A342E;font-size:12px;font-weight:500">{{ tg }}</span>
+        </sc-for>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;overflow:hidden;margin-bottom:22px">
+        <sc-for list="{{ lotSpecs }}" as="s" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:180px minmax(0,1fr);gap:16px;padding:12px 20px;border-bottom:1px solid #F4EFE6;background:{{ s.bg }}">
+            <span style="font-size:13px;color:#6B6259">{{ s.k }}</span>
+            <span style="font-size:14px;color:#211D19;font-variant-numeric:tabular-nums">{{ s.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <h3 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px;margin:0 0 8px">Description</h3>
+      <p style="font-size:15px;line-height:1.6;color:#3A342E;margin:0 0 24px;max-width:68ch">Customer returns from a national home retailer, sealed and banded as received. Mix is roughly 60% small kitchen appliances, 25% home textiles, 15% assorted. Untested, sold as-is, whole lot only. Loading dock available weekdays 7am–3pm; we can load a 53' trailer in about two hours.</p>
+
+      <div id="dealer" style="background:#F4EFE6;border-radius:14px;padding:20px 22px">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+          <span style="width:46px;height:46px;border-radius:999px;background:#E7DFD2;display:block;flex:none"></span>
+          <div>
+            <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px;color:#211D19">Kestrel Liquidation</div>
+            <div style="font-size:13px;color:#6B6259">Verified dealer · 9 years in business · Reno, NV</div>
+          </div>
+          <div style="flex:1"></div>
+          <button style="height:36px;padding:0 16px;border-radius:999px;border:1px solid #D4C8B5;background:#fff;font-size:13px;font-weight:500;color:#3A342E;cursor:pointer" style-hover="background:#FAF7F2">View all 7 lots</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+          <sc-for list="{{ dealerStats }}" as="d" hint-placeholder-count="4">
+            <div>
+              <div style="font-size:12px;color:#6B6259;margin-bottom:3px">{{ d.k }}</div>
+              <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:19px;font-variant-numeric:tabular-nums;color:#211D19">{{ d.v }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:sticky;top:96px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:22px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:13px;color:#6B6259">Asking price</span>
+          <span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;background:#FBE7D8;color:#B04A0F;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">85% off retail</span>
+        </div>
+        <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:38px;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#211D19">$6,800</div>
+        <div style="font-size:13px;color:#A3937A;font-variant-numeric:tabular-nums;margin-bottom:18px">Retail $46,200 · $566 per pallet · $1.63 per unit</div>
+
+        <div style="display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:10px;background:#FDF4EC;border:1px solid #FBE7D8;margin-bottom:16px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B04A0F" stroke-width="2.75" stroke-linecap="round" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+          <span style="font-size:13px;font-weight:500;color:#B04A0F;font-variant-numeric:tabular-nums">Offers close in 11h 42m</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B6259">Your offer</div>
+          <div style="display:flex;align-items:center;height:48px;border:2px solid {{ offerBorder }};border-radius:12px;padding:0 14px;background:#fff">
+            <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:20px;color:#A3937A;margin-right:6px">$</span>
+            <input value="{{ offerAmount }}" onChange="{{ setOfferAmount }}" inputmode="numeric" style="flex:1;min-width:0;border:none;outline:none;font-family:'Inter Tight',sans-serif;font-weight:600;font-size:22px;font-variant-numeric:tabular-nums;color:#211D19;background:transparent">
+            <span style="font-size:13px;color:#6B6259;font-variant-numeric:tabular-nums">{{ offerVsAsk }}</span>
+          </div>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ quickOffers }}" as="q" hint-placeholder-count="3">
+              <button onClick="{{ q.set }}" style="flex:1;height:32px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;font-size:13px;font-weight:500;color:#3A342E;cursor:pointer;font-variant-numeric:tabular-nums" style-hover="background:#F4EFE6">{{ q.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px;line-height:1.5;color:{{ offerHintColor }};font-variant-numeric:tabular-nums">{{ offerHint }}</div>
+        </div>
+
+        <button onClick="{{ openModal }}" style="width:100%;height:48px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#D1590F">Review offer</button>
+        <button style="width:100%;height:42px;margin-top:9px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;color:#3A342E;font-size:14px;font-weight:500;cursor:pointer" style-hover="background:#F4EFE6">Add to watchlist</button>
+        <div style="font-size:12px;line-height:1.5;color:#6B6259;text-align:center;margin-top:12px">One offer per lot. It cannot be edited, raised or withdrawn once submitted.</div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:18px 20px">
+        <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:15px;margin-bottom:12px">Freight estimate to 85004</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ freight }}" as="f" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:#6B6259">{{ f.k }}</span>
+              <span style="color:#211D19;font-weight:{{ f.w }};font-variant-numeric:tabular-nums">{{ f.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ MY OFFERS ══════════ -->
+<sc-if value="{{ sOffers }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="My offers" style="max-width:1440px;margin:0 auto;padding:24px 20px 60px">
+  <sc-if value="{{ justSubmitted }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;align-items:center;gap:14px;background:#FDF4EC;border:1px solid #FBE7D8;border-radius:14px;padding:18px 22px;margin-bottom:22px">
+    <span style="width:40px;height:40px;border-radius:999px;background:#B04A0F;display:flex;align-items:center;justify-content:center;flex:none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+    </span>
+    <div style="flex:1">
+      <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px;color:#211D19">Offer submitted. {{ submittedAmount }} on Mixed Returns — 12 Pallets.</div>
+      <div style="font-size:13px;color:#6B6259;margin-top:2px">Kestrel Liquidation has 48 hours to accept or decline. We'll email and notify you either way.</div>
+    </div>
+    <button onClick="{{ goBrowse }}" style="height:38px;padding:0 18px;border-radius:999px;border:1px solid #D4C8B5;background:#fff;font-size:14px;font-weight:500;color:#3A342E;cursor:pointer;flex:none" style-hover="background:#FAF7F2">Keep browsing</button>
+  </div>
+  </sc-if>
+
+  <h1 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.015em;margin:0 0 4px">My offers</h1>
+  <div style="font-size:14px;color:#6B6259;margin-bottom:20px">{{ offerSummary }}</div>
+
+  <div style="display:flex;gap:6px;margin-bottom:16px">
+    <sc-for list="{{ offerTabs }}" as="ot" hint-placeholder-count="4">
+      <button onClick="{{ ot.set }}" style="height:34px;padding:0 16px;border-radius:999px;border:1px solid {{ ot.border }};background:{{ ot.bg }};color:{{ ot.color }};font-size:13px;font-weight:500;cursor:pointer">{{ ot.label }}</button>
+    </sc-for>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;overflow:hidden">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 130px 130px 150px 140px;gap:16px;padding:12px 20px;background:#F4EFE6;border-bottom:1px solid #E7DFD2">
+      <sc-for list="{{ offerCols }}" as="c" hint-placeholder-count="5">
+        <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6B6259;text-align:{{ c.align }}">{{ c.label }}</span>
+      </sc-for>
+    </div>
+    <sc-for list="{{ myOffers }}" as="o" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 130px 130px 150px 140px;gap:16px;align-items:center;padding:14px 20px;border-bottom:1px solid #F4EFE6;background:{{ o.bg }}">
+        <div style="display:flex;align-items:center;gap:13px;min-width:0">
+          <span style="width:52px;height:40px;border-radius:8px;overflow:hidden;background:#F4EFE6;flex:none;display:block">
+            <img src="{{ o.img }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7)">
+          </span>
+          <div style="min-width:0">
+            <div style="font-size:14px;font-weight:500;color:#211D19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.title }}</div>
+            <div style="font-size:12px;color:#A3937A">{{ o.dealer }}</div>
+          </div>
+        </div>
+        <span style="font-size:14px;text-align:right;color:#6B6259;font-variant-numeric:tabular-nums">{{ o.ask }}</span>
+        <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:16px;text-align:right;color:#211D19;font-variant-numeric:tabular-nums">{{ o.amount }}</span>
+        <span style="text-align:right;font-size:13px;color:#6B6259;font-variant-numeric:tabular-nums">{{ o.when }}</span>
+        <div style="display:flex;justify-content:flex-end">
+          <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 12px;border-radius:999px;background:{{ o.statusBg }};color:{{ o.statusColor }};font-size:12px;font-weight:600">
+            <span style="width:6px;height:6px;border-radius:999px;background:{{ o.statusColor }};display:block"></span>{{ o.status }}
+          </span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:16px;background:#F4EFE6;border-radius:14px;padding:18px 22px;margin-top:16px">
+    <span style="width:56px;height:56px;border-radius:999px;overflow:hidden;background:#E7DFD2;flex:none;display:block">
+      <img src="{{ emptyArt }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.6)">
+    </span>
+    <div style="flex:1">
+      <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:16px;color:#211D19">Two of your offers were beaten by under $300.</div>
+      <div style="font-size:13px;color:#6B6259;margin-top:2px">Accepted offers in Mixed Lots ran 12–18% above yours last month. Median accepted discount was 83% off retail.</div>
+    </div>
+    <button onClick="{{ goBrowse }}" style="height:38px;padding:0 18px;border-radius:999px;border:1px solid #D4C8B5;background:#fff;font-size:14px;font-weight:500;color:#3A342E;cursor:pointer;flex:none" style-hover="background:#FAF7F2">See similar lots</button>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ ORDER ══════════ -->
+<sc-if value="{{ sOrder }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Order" style="max-width:1120px;margin:0 auto;padding:24px 20px 60px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <span style="display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;background:#E3EDE6;color:#2F5F45;font-size:12px;font-weight:600">
+      <span style="width:6px;height:6px;border-radius:999px;background:#3F7D5C;display:block"></span>Accepted
+    </span>
+    <span style="font-size:13px;color:#6B6259;font-variant-numeric:tabular-nums">Order PLT-40817 · placed Aug 8, 2026</span>
+  </div>
+  <h1 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.015em;margin:0 0 24px">Kestrel accepted your $6,100 offer.</h1>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:24px">
+        <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px;margin-bottom:22px">Where this order is</div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:26px minmax(0,1fr);gap:16px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <span style="width:22px;height:22px;border-radius:999px;background:{{ t.dotBg }};border:2px solid {{ t.dotBorder }};display:flex;align-items:center;justify-content:center;flex:none">{{ t.icon }}</span>
+                <span style="flex:1;width:2px;background:{{ t.lineColor }};display:block;min-height:{{ t.lineH }}"></span>
+              </div>
+              <div style="padding-bottom:22px">
+                <div style="font-size:15px;font-weight:{{ t.weight }};color:{{ t.titleColor }}">{{ t.title }}</div>
+                <div style="font-size:13px;color:#6B6259;margin-top:3px">{{ t.detail }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:24px">
+        <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px;margin-bottom:16px">Pickup and freight</div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+          <sc-for list="{{ logistics }}" as="lg" hint-placeholder-count="4">
+            <div>
+              <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B6259;margin-bottom:5px">{{ lg.k }}</div>
+              <div style="font-size:14px;line-height:1.5;color:#211D19;font-variant-numeric:tabular-nums">{{ lg.v }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:22px">
+          <button style="height:42px;padding:0 20px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#D1590F">Book freight through Pallet</button>
+          <button style="height:42px;padding:0 20px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;font-size:14px;font-weight:500;color:#3A342E;cursor:pointer" style-hover="background:#F4EFE6">I'll arrange my own</button>
+          <button style="height:42px;padding:0 20px;border-radius:999px;border:none;background:transparent;font-size:14px;font-weight:500;color:#6B6259;cursor:pointer" style-hover="background:#F4EFE6">Message dealer</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px;position:sticky;top:96px">
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:22px">
+        <div style="display:flex;gap:13px;margin-bottom:18px">
+          <span style="width:64px;height:50px;border-radius:8px;overflow:hidden;background:#F4EFE6;flex:none;display:block">
+            <img src="{{ lotHero }}" alt="" style="width:100%;height:100%;object-fit:cover;filter:saturate(.7)">
+          </span>
+          <div>
+            <div style="font-size:14px;font-weight:500;line-height:1.35;color:#211D19">Mixed Returns — 12 Pallets, Sealed</div>
+            <div style="font-size:12px;color:#A3937A;margin-top:3px">Kestrel Liquidation · Reno, NV</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ orderTotals }}" as="ot" hint-placeholder-count="5">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:{{ ot.padTop }};border-top:{{ ot.borderTop }}">
+              <span style="font-size:{{ ot.size }};font-weight:{{ ot.weight }};color:{{ ot.color }}">{{ ot.k }}</span>
+              <span style="font-family:{{ ot.font }};font-size:{{ ot.vSize }};font-weight:{{ ot.weight }};color:{{ ot.color }};font-variant-numeric:tabular-nums">{{ ot.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <button style="width:100%;height:46px;margin-top:20px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#D1590F">Pay $6,466.00</button>
+        <div style="font-size:12px;line-height:1.5;color:#6B6259;text-align:center;margin-top:10px">Funds are held by Pallet until you confirm pickup. Payment due within 3 business days.</div>
+      </div>
+      <div style="background:#F4EFE6;border-radius:14px;padding:18px 20px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3F7D5C" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+          <span style="font-size:14px;font-weight:600;color:#211D19">Buyer protection</span>
+        </div>
+        <div style="font-size:13px;line-height:1.5;color:#6B6259">If the lot materially differs from the manifest, open a dispute within 3 days of pickup and we hold the funds until it's resolved.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ══════════ DEALER ══════════ -->
+<sc-if value="{{ sDealer }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Dealer offers" style="max-width:1440px;margin:0 auto;padding:24px 20px 60px">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px">
+    <div>
+      <h1 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.015em;margin:0 0 4px">Kestrel Liquidation</h1>
+      <div style="font-size:14px;color:#6B6259">7 lots live · 3 need a decision today</div>
+    </div>
+    <button style="height:44px;padding:0 22px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#D1590F">Post a lot</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+    <sc-for list="{{ dealerKpis }}" as="k" hint-placeholder-count="4">
+      <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;padding:20px 22px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B6259;margin-bottom:10px">{{ k.k }}</div>
+        <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:28px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#211D19">{{ k.v }}</div>
+        <div style="font-size:13px;color:{{ k.dc }};margin-top:4px;font-variant-numeric:tabular-nums">{{ k.d }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E7DFD2;border-radius:14px;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #E7DFD2">
+      <div>
+        <div style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:17px">Offers — Mixed Returns, 12 Pallets</div>
+        <div style="font-size:13px;color:#A3937A;font-variant-numeric:tabular-nums">Asking $6,800 · closes in 11h 42m · accepting one declines the rest</div>
+      </div>
+      <span style="display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:999px;background:#FBE7D8;color:#B04A0F;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums">{{ dealerBadge }}</span>
+    </div>
+    <sc-for list="{{ dealerOffers }}" as="d" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 120px 130px 170px;gap:20px;align-items:center;padding:16px 22px;border-bottom:1px solid #F4EFE6;background:{{ d.bg }}">
+        <div style="display:flex;align-items:center;gap:13px;min-width:0">
+          <span style="width:36px;height:36px;border-radius:999px;background:#F4EFE6;flex:none;display:block"></span>
+          <div style="min-width:0">
+            <div style="display:flex;align-items:center;gap:7px">
+              <span style="font-size:14px;font-weight:600;color:{{ d.nameColor }}">{{ d.name }}</span>
+              <sc-if value="{{ d.verified }}" hint-placeholder-val="{{ true }}">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3F7D5C" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 2l2.4 2.1 3.2-.4 1 3 2.9 1.4-1 3 1 3-2.9 1.4-1 3-3.2-.4L12 22l-2.4-2.1-3.2.4-1-3L2.5 15.9l1-3-1-3 2.9-1.4 1-3 3.2.4z"></path><path d="M9 12l2 2 4-4"></path></svg>
+              </sc-if>
+            </div>
+            <div style="font-size:12px;color:#A3937A;font-variant-numeric:tabular-nums">{{ d.meta }}</div>
+          </div>
+        </div>
+        <span style="font-size:13px;text-align:right;color:#6B6259;font-variant-numeric:tabular-nums">{{ d.pct }}</span>
+        <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:20px;text-align:right;color:{{ d.priceColor }};font-variant-numeric:tabular-nums">{{ d.amount }}</span>
+        <div style="display:flex;justify-content:flex-end;gap:8px">
+          <sc-if value="{{ d.pending }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ d.accept }}" style="height:34px;padding:0 16px;border:none;border-radius:999px;background:#B04A0F;color:#fff;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#D1590F">Accept</button>
+          </sc-if>
+          <sc-if value="{{ d.pending }}" hint-placeholder-val="{{ true }}">
+            <button style="height:34px;padding:0 16px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;color:#A63A2C;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#FAF7F2">Decline</button>
+          </sc-if>
+          <sc-if value="{{ d.won }}" hint-placeholder-val="{{ false }}">
+            <span style="display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 16px;border-radius:999px;background:#3F7D5C;color:#fff;font-size:13px;font-weight:600">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>Accepted
+            </span>
+          </sc-if>
+          <sc-if value="{{ d.dead }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:13px;color:#A3937A">Auto-declined</span>
+          </sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+</main>
+
+<footer style="background:#211D19;padding:40px 20px 48px;margin-top:auto">
+  <div style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="width:24px;height:24px;border-radius:999px;background:#E8631A;display:block"></span>
+        <span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:18px;color:#FAF7F2">Pallet</span>
+      </div>
+      <div style="font-size:13px;line-height:1.6;color:#A3937A;max-width:34ch">Wholesale liquidation for verified businesses. Listing is free; Pallet takes a fee when a lot sells.</div>
+    </div>
+    <sc-for list="{{ footerCols }}" as="fc" hint-placeholder-count="3">
+      <div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#FAF7F2;margin-bottom:12px">{{ fc.title }}</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ fc.links }}" as="l" hint-placeholder-count="4">
+            <a href="#0" style="font-size:13px;color:#A3937A">{{ l }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</footer>
+
+<!-- ══════════ OFFER CONFIRM MODAL ══════════ -->
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:80;background:rgba(33,29,25,.5);display:flex;align-items:center;justify-content:center;padding:32px">
+  <div data-screen-label="Offer confirm" style="width:520px;max-width:100%;background:#fff;border-radius:18px;box-shadow:0 4px 16px rgba(33,29,25,.2);overflow:hidden">
+    <div style="padding:32px 34px 26px">
+      <div style="width:46px;height:46px;border-radius:999px;background:#FDF4EC;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B04A0F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9L2.5 17a2 2 0 001.7 3h15.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg>
+      </div>
+      <h2 style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:25px;line-height:1.2;letter-spacing:-.015em;margin:0 0 10px">One offer. No going back.</h2>
+      <p style="font-size:15px;line-height:1.55;color:#6B6259;margin:0 0 24px">If Kestrel Liquidation accepts, this becomes a binding order. You cannot edit, raise or withdraw it, and you will not get a second offer on this lot.</p>
+      <div style="border:1px solid #E7DFD2;border-radius:12px;overflow:hidden;margin-bottom:20px">
+        <sc-for list="{{ confirmRows }}" as="c" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid #F4EFE6;background:{{ c.bg }}">
+            <span style="font-size:13px;color:#6B6259">{{ c.k }}</span>
+            <span style="font-family:{{ c.font }};font-size:{{ c.size }};font-weight:{{ c.weight }};color:#211D19;font-variant-numeric:tabular-nums">{{ c.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <button onClick="{{ toggleAgree }}" style="display:flex;align-items:flex-start;gap:11px;background:none;border:none;padding:0;cursor:pointer;text-align:left">
+        <span style="width:20px;height:20px;border-radius:6px;border:2px solid {{ agreeBorder }};background:{{ agreeBg }};display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px">{{ agreeCheck }}</span>
+        <span style="font-size:13px;line-height:1.5;color:#3A342E">I understand this offer is binding and final.</span>
+      </button>
+    </div>
+    <div style="display:flex;gap:10px;padding:18px 34px 26px;border-top:1px solid #F4EFE6">
+      <button onClick="{{ submitOffer }}" disabled="{{ submitDisabled }}" style="flex:1;height:48px;border:none;border-radius:999px;background:{{ submitBg }};color:#fff;font-size:15px;font-weight:600;cursor:{{ submitCursor }};opacity:{{ submitOpacity }}">Submit {{ offerAmountLabel }}</button>
+      <button onClick="{{ closeModal }}" style="height:48px;padding:0 24px;border-radius:999px;border:1px solid #E7DFD2;background:#fff;color:#6B6259;font-size:15px;cursor:pointer" style-hover="background:#F4EFE6">Back</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;browse&quot;,&quot;lot&quot;,&quot;offers&quot;,&quot;order&quot;,&quot;dealer&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;,&quot;label&quot;:&quot;Opening screen&quot;},&quot;resultsView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;list&quot;,&quot;grid&quot;],&quot;default&quot;:&quot;list&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;,&quot;label&quot;:&quot;Search results layout&quot;}}">
+const B = 'https://d8j0ntlcm91z4.cloudfront.net/user_3Dit3YSBw9htqWUZOEoEViwzsHK/';
+const IMG = {
+  electronics: B + 'hf_20260808_192335_ca7f75b7-f81d-44af-aef5-7343d8a3d43c.png',
+  apparel: B + 'hf_20260808_192334_08017e9e-f104-4a55-b51b-67affd568c5f.png',
+  home: B + 'hf_20260808_192335_87764fb4-d44c-4322-9b12-ecc437649c2b.png',
+  tools: B + 'hf_20260808_192335_acbab137-f4af-4f13-838a-a27796b4fa5f.png',
+  beauty: B + 'hf_20260808_192335_58308620-c150-4958-9a1b-ce0bdce4017b.png',
+  mixed: B + 'hf_20260808_192335_4d2a4377-ac26-4bb5-b0ed-e80efc79f45d.png',
+  empty: B + 'hf_20260808_192335_6fdbd888-f0c4-477b-9c96-08187f2c79a9.png'
+};
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const check = (c, w) => React.createElement('svg', { width: w || 12, height: w || 12, viewBox: '0 0 24 24', fill: 'none', stroke: c, strokeWidth: 3.5, strokeLinecap: 'round', strokeLinejoin: 'round' }, React.createElement('path', { d: 'M5 12l5 5L20 7' }));
+const icon = (d, c, w) => React.createElement('svg', { width: w || 18, height: w || 18, viewBox: '0 0 24 24', fill: 'none', stroke: c, strokeWidth: 2.75, strokeLinecap: 'round', strokeLinejoin: 'round' }, d.map((p, i) => React.createElement('path', { key: i, d: p })));
+
+const LOTS = [
+  ['Mixed Returns — 12 Pallets, Sealed', IMG.mixed, 6800, 46200, '11h 42m', 'Kestrel Liquidation', '4,180 units · 12 pallets · Reno, NV', 23, true],
+  ['Small Kitchen Appliances, Overstock', IMG.home, 12400, 68900, '1d 04h', 'Basin Trade Co.', '1,240 units · 8 pallets · Sparks, NV', 8, false],
+  ['Cordless Tool Kits — Shelf Pull', IMG.tools, 9250, 51300, '6h 18m', 'Sonora Export LLC', '860 units · 6 pallets · Phoenix, AZ', 14, true],
+  ['Assorted Apparel, 40 Cases', IMG.apparel, 3900, 27400, '2d 11h', 'Ridgeway Resale', '3,200 units · 40 cases · Tucson, AZ', 4, false],
+  ['Bluetooth Audio, Customer Return', IMG.electronics, 7600, 44100, '3d 02h', 'Delta Bin Store', '1,900 units · 5 pallets · Reno, NV', 0, false],
+  ['Cosmetics Overstock — Sealed Cases', IMG.beauty, 5200, 38500, '18h 05m', 'Kestrel Liquidation', '2,600 units · 4 pallets · Reno, NV', 11, true]
+];
+
+class Component extends DCLogic {
+  state = {
+    screen: 'home', query: 'mixed pallet lots', view: 'list', sort: 'Closing soonest',
+    filters: { 'Mixed Lots': true, 'Customer Return': true, 'Manifest included': true },
+    priceCap: 15000, offerAmount: '6,100', modalOpen: false, agreed: false,
+    submitted: false, offerTab: 'All', accepted: false, hero: 0
+  };
+
+  componentDidMount() {
+    if (this.props.initialScreen) this.setState({ screen: this.props.initialScreen });
+    if (this.props.resultsView) this.setState({ view: this.props.resultsView });
+  }
+  go = s => { this.setState({ screen: s }); window.scrollTo(0, 0); };
+  toggleFilter = k => this.setState(s => ({ filters: Object.assign({}, s.filters, { [k]: !s.filters[k] }) }));
+
+  renderVals() {
+    const S = this.state;
+    const nOffer = parseInt(String(S.offerAmount).replace(/[^0-9]/g, ''), 10) || 0;
+    const ask = 6800, msrp = 46200;
+
+    const tab = (label, key) => ({
+      label, go: () => this.go(key),
+      bg: S.screen === key ? '#E8631A' : 'transparent',
+      color: S.screen === key ? '#211D19' : '#A3937A',
+      border: S.screen === key ? '#E8631A' : 'rgba(250,247,242,.22)'
+    });
+
+    const lot = (i, extra) => Object.assign({
+      title: LOTS[i][0], img: LOTS[i][1], price: money(LOTS[i][2]), msrp: money(LOTS[i][3]),
+      closes: LOTS[i][4], dealer: LOTS[i][5], meta: LOTS[i][6],
+      discount: Math.round((1 - LOTS[i][2] / LOTS[i][3]) * 100) + '%',
+      open: () => this.go('lot')
+    }, extra || {});
+
+    const activeFilters = Object.keys(S.filters).filter(k => S.filters[k]);
+    const fgroup = (label, items) => ({
+      label,
+      items: items.map(it => {
+        const on = !!S.filters[it[0]];
+        return {
+          label: it[0], count: it[1], toggle: () => this.toggleFilter(it[0]),
+          boxBorder: on ? '#B04A0F' : '#D4C8B5', boxBg: on ? '#B04A0F' : '#fff',
+          check: on ? check('#fff') : null
+        };
+      })
+    });
+
+    const results = [0, 2, 1, 5, 3, 4].map(i => lot(i, {
+      rating: '4.' + (9 - (i % 4)), location: LOTS[i][6].split(' · ').pop(),
+      perUnit: '$' + (LOTS[i][2] / parseInt(LOTS[i][6].replace(/,/g, ''), 10)).toFixed(2) + ' per unit',
+      offers: LOTS[i][7], tags: ['Customer Return', 'Manifest included', LOTS[i][8] ? 'Pickup allowed' : 'Freight only'],
+      blurb: 'Sealed and banded as received. Untested, sold as-is, whole lot only.',
+      clockColor: LOTS[i][4].indexOf('h') > -1 && LOTS[i][4].indexOf('d') === -1 ? '#B4832B' : '#6B6259'
+    }));
+
+    const statusMap = {
+      Pending: ['#FBE7D8', '#B04A0F'], Accepted: ['#E3EDE6', '#2F5F45'],
+      Declined: ['#F4EFE6', '#A63A2C'], Expired: ['#F4EFE6', '#6B6259']
+    };
+    const myOffersAll = [
+      ['Mixed Returns — 12 Pallets, Sealed', IMG.mixed, 'Kestrel Liquidation', '$6,800', S.submitted ? '$' + S.offerAmount : '$6,100', '2 min ago', 'Pending'],
+      ['Cordless Tool Kits — Shelf Pull', IMG.tools, 'Sonora Export LLC', '$9,250', '$8,400', '6h ago', 'Accepted'],
+      ['Assorted Apparel, 40 Cases', IMG.apparel, 'Ridgeway Resale', '$3,900', '$2,750', 'Aug 6', 'Declined'],
+      ['Cosmetics Overstock — Sealed Cases', IMG.beauty, 'Kestrel Liquidation', '$5,200', '$4,100', 'Aug 4', 'Declined'],
+      ['Seasonal Home Textiles', IMG.home, 'Basin Trade Co.', '$2,100', '$1,500', 'Jul 29', 'Expired']
+    ];
+    const myOffers = myOffersAll
+      .filter(o => S.offerTab === 'All' || o[6] === S.offerTab)
+      .map((o, i) => ({
+        title: o[0], img: o[1], dealer: o[2], ask: o[3], amount: o[4], when: o[5], status: o[6],
+        statusBg: statusMap[o[6]][0], statusColor: statusMap[o[6]][1],
+        bg: i === 0 && S.submitted && S.offerTab !== 'Accepted' ? '#FDF4EC' : '#fff'
+      }));
+
+    const dealerRows = [
+      ['Northgate Surplus', '4.9 · 118 deals · Phoenix, AZ', 6100, true],
+      ['Basin Trade Co.', '4.6 · 41 deals · Sparks, NV', 5400, true],
+      ['Ridgeway Resale', '4.2 · 12 deals · Tucson, AZ', 4850, false],
+      ['Sonora Export LLC', '4.8 · 76 deals · Phoenix, AZ', 4200, true],
+      ['Delta Bin Store', '3.9 · 8 deals · Reno, NV', 3600, false]
+    ];
+    const dealerOffers = dealerRows.map((r, i) => {
+      const won = S.accepted && i === 0, dead = S.accepted && i !== 0;
+      return {
+        name: r[0], meta: r[1], amount: money(r[2]), verified: r[3],
+        pct: Math.round((1 - r[2] / msrp) * 100) + '% off retail',
+        pending: !S.accepted, won, dead,
+        bg: won ? '#FDF4EC' : '#fff',
+        nameColor: dead ? '#6B6259' : '#211D19',
+        priceColor: dead ? '#A3937A' : '#211D19',
+        accept: () => this.setState({ accepted: true })
+      };
+    });
+
+    const tl = [
+      ['Offer accepted', 'Aug 8, 2:14 pm · Kestrel Liquidation', 'done'],
+      ['Payment due', 'By Aug 11 · funds held by Pallet until pickup', 'active'],
+      ['Freight booked', 'Not yet — book through Pallet or arrange your own', 'todo'],
+      ['Picked up', 'Dock hours Mon–Fri, 7am–3pm', 'todo'],
+      ['Delivered', 'Estimated Aug 15–18', 'todo']
+    ];
+    const timeline = tl.map((t, i) => ({
+      title: t[0], detail: t[1],
+      weight: t[2] === 'todo' ? '400' : '600',
+      titleColor: t[2] === 'todo' ? '#6B6259' : '#211D19',
+      dotBg: t[2] === 'done' ? '#3F7D5C' : t[2] === 'active' ? '#B04A0F' : '#fff',
+      dotBorder: t[2] === 'done' ? '#3F7D5C' : t[2] === 'active' ? '#B04A0F' : '#D4C8B5',
+      icon: t[2] === 'done' ? check('#fff', 12) : null,
+      lineColor: t[2] === 'done' ? '#3F7D5C' : '#E7DFD2',
+      lineH: i === tl.length - 1 ? '0px' : '18px'
+    }));
+
+    const totalsRaw = [
+      ['Accepted offer', '$6,100.00', 0], ['Buyer fee (3%)', '$183.00', 0],
+      ['Freight (quoted)', '$1,240.00', 0], ['Sales tax (exempt — resale cert)', '$0.00', 0],
+      ['Due now', '$6,466.00', 1]
+    ];
+    const orderTotals = totalsRaw.map(t => ({
+      k: t[0], v: t[1],
+      size: t[2] ? '15px' : '13px', vSize: t[2] ? '20px' : '14px',
+      weight: t[2] ? '600' : '400', color: t[2] ? '#211D19' : '#6B6259',
+      font: t[2] ? "'Inter Tight', sans-serif" : 'Inter, sans-serif',
+      padTop: t[2] ? '11px' : '0px', borderTop: t[2] ? '1px solid #E7DFD2' : 'none'
+    }));
+
+    const pctOfAsk = nOffer ? Math.round((nOffer / ask) * 100) : 0;
+    let hint = 'Median accepted offer in Mixed Lots is 88% of asking.', hintColor = '#6B6259';
+    if (nOffer && pctOfAsk < 70) { hint = 'Well under asking — offers below 70% are declined about 8 times in 10.'; hintColor = '#A63A2C'; }
+    else if (nOffer && pctOfAsk >= 95) { hint = 'Strong offer. ' + Math.round((1 - nOffer / msrp) * 100) + '% off retail, likely accepted.'; hintColor = '#2F5F45'; }
+    else if (nOffer) hint = pctOfAsk + '% of asking · ' + Math.round((1 - nOffer / msrp) * 100) + '% off retail.';
+
+    return {
+      tabs: [tab('Home', 'home'), tab('Search', 'browse'), tab('Lot detail', 'lot'), tab('My offers', 'offers'), tab('Order', 'order'), tab('Dealer inbox', 'dealer')],
+      goHome: () => this.go('home'), goBrowse: () => this.go('browse'),
+      goOffers: () => this.go('offers'), goOrder: () => this.go('order'), goDealer: () => this.go('dealer'),
+      sHome: S.screen === 'home', sBrowse: S.screen === 'browse', sLot: S.screen === 'lot',
+      sOffers: S.screen === 'offers', sOrder: S.screen === 'order', sDealer: S.screen === 'dealer',
+
+      query: S.query, setQuery: e => this.setState({ query: e.target.value }),
+      offerCount: S.submitted ? '5' : '4',
+      navCats: ['Today\'s lots', 'Mixed Lots', 'Electronics', 'Home', 'Tools', 'Apparel', 'Beauty', 'Closing soon', 'Sell on Pallet'].map((c, i) => ({
+        label: c, go: () => this.go('browse'),
+        bg: i === 0 ? 'rgba(250,247,242,.12)' : 'transparent',
+        color: i === 0 ? '#FAF7F2' : 'rgba(250,247,242,.75)',
+        weight: i === 0 ? '600' : '400'
+      })),
+
+      heroImg: IMG.mixed, emptyArt: IMG.empty,
+      catCircles: [['Electronics', '218 lots', IMG.electronics], ['Apparel', '164 lots', IMG.apparel], ['Home', '291 lots', IMG.home], ['Tools', '132 lots', IMG.tools], ['Beauty', '87 lots', IMG.beauty], ['Mixed Lots', '392 lots', IMG.mixed]]
+        .map(c => ({ name: c[0], count: c[1], img: c[2] })),
+      closingLots: [0, 2, 5, 1].map(i => lot(i)),
+      recLots: [1, 4, 3, 5].map(i => lot(i)),
+      trustCards: [
+        ['Every dealer is verified', 'Business registration, resale certificate and two references checked before a lot goes live.', ['M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', 'M9 12l2 2 4-4']],
+        ['Manifests, not guesses', 'Unit counts and retail values are cross-checked against the photos before listing.', ['M9 3h6l1 3H8z', 'M6 6h12v14a2 2 0 01-2 2H8a2 2 0 01-2-2z', 'M9 12h6', 'M9 16h4']],
+        ['Funds held until pickup', 'We hold payment until you confirm the lot matches. Disputes open for 3 days after.', ['M3 8h18v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', 'M3 8l9-5 9 5', 'M12 13v3']]
+      ].map(t => ({ title: t[0], body: t[1], icon: icon(t[2], '#B04A0F', 18) })),
+
+      filterGroups: [
+        fgroup('Category', [['Mixed Lots', 392], ['Electronics', 218], ['Home', 291], ['Tools', 132], ['Apparel', 164]]),
+        fgroup('Condition', [['Customer Return', 418], ['Shelf Pull', 262], ['Overstock', 501], ['Salvage', 103]]),
+        fgroup('Logistics', [['Manifest included', 744], ['Pickup allowed', 512], ['Freight quoted', 690]]),
+        fgroup('Discount', [['70% or more off', 831], ['85% or more off', 402], ['90% or more off', 158]])
+      ],
+      priceCap: S.priceCap, priceCapLabel: money(S.priceCap),
+      setPriceCap: e => this.setState({ priceCap: +e.target.value }),
+      clearFilters: () => this.setState({ filters: {} }),
+      resultCount: '1,284', activeFilterLabel: activeFilters.length ? activeFilters.join(' · ') : 'no filters applied',
+      sort: S.sort, setSort: e => this.setState({ sort: e.target.value }),
+      viewToggle: ['list', 'grid'].map(v => ({
+        label: v === 'list' ? 'List' : 'Grid', set: () => this.setState({ view: v }),
+        bg: S.view === v ? '#fff' : 'transparent', color: S.view === v ? '#211D19' : '#6B6259'
+      })),
+      listView: S.view === 'list', gridView: S.view === 'grid', results,
+
+      lotTitle: 'Mixed Returns — 12 Pallets, Sealed',
+      lotHero: [IMG.mixed, IMG.home, IMG.electronics, IMG.tools, IMG.apparel][S.hero],
+      lotThumbs: [IMG.mixed, IMG.home, IMG.electronics, IMG.tools, IMG.apparel].map((img, i) => ({
+        img, pick: () => this.setState({ hero: i }), border: S.hero === i ? '#E8631A' : '#E7DFD2'
+      })),
+      lotTags: ['Customer Return', 'Manifest included', 'Pickup allowed', 'Whole lot only', 'Untested'],
+      lotSpecs: [
+        ['Condition', 'Customer Return · untested'], ['Quantity', '4,180 units · 12 pallets'],
+        ['Retail value (MSRP)', '$46,200'], ['Location', 'Reno, NV 89502'],
+        ['Freight class', 'Class 100 · 9,400 lbs · buyer pays'],
+        ['Manifest', 'mixed-returns-1284.csv (4,180 rows)'],
+        ['Offer window', '48 hours from submission'], ['Lot ID', 'PLT-1284-MR']
+      ].map((s, i) => ({ k: s[0], v: s[1], bg: i % 2 ? '#FAF7F2' : '#fff' })),
+      manifestMix: [['Small kitchen appliances', '60%', '#B04A0F'], ['Home textiles', '25%', '#E8631A'], ['Assorted', '15%', '#F4A574']]
+        .map(m => ({ label: m[0], pct: m[1], color: m[2] })),
+      dealerStats: [['Rating', '4.8'], ['Deals closed', '312'], ['Volume moved', '$4.1M'], ['Avg. ship time', '2.1 days']].map(d => ({ k: d[0], v: d[1] })),
+      freight: [['Carrier quote (LTL)', '$1,240', '600'], ['Pickup instead', 'Free — Reno, NV', '400'], ['Transit estimate', '3–5 business days', '400']]
+        .map(f => ({ k: f[0], v: f[1], w: f[2] })),
+
+      offerAmount: S.offerAmount,
+      setOfferAmount: e => this.setState({ offerAmount: e.target.value.replace(/[^0-9,]/g, '') }),
+      offerBorder: nOffer && pctOfAsk < 70 ? '#D4C8B5' : '#E8631A',
+      offerVsAsk: nOffer ? pctOfAsk + '% of ask' : '',
+      offerHint: hint, offerHintColor: hintColor,
+      quickOffers: [[0.8, '80% · $5,440'], [0.9, '90% · $6,120'], [1, 'Full ask · $6,800']].map(q => ({
+        label: q[1], set: () => this.setState({ offerAmount: Math.round(ask * q[0]).toLocaleString('en-US') })
+      })),
+
+      modalOpen: S.modalOpen,
+      openModal: () => this.setState({ modalOpen: true, agreed: false }),
+      closeModal: () => this.setState({ modalOpen: false }),
+      toggleAgree: () => this.setState(s => ({ agreed: !s.agreed })),
+      agreeBorder: S.agreed ? '#B04A0F' : '#D4C8B5', agreeBg: S.agreed ? '#B04A0F' : '#fff',
+      agreeCheck: S.agreed ? check('#fff') : null,
+      submitDisabled: !S.agreed, submitBg: S.agreed ? '#B04A0F' : '#A3937A',
+      submitCursor: S.agreed ? 'pointer' : 'not-allowed', submitOpacity: S.agreed ? '1' : '.7',
+      offerAmountLabel: '$' + S.offerAmount,
+      submitOffer: () => { if (this.state.agreed) { this.setState({ modalOpen: false, submitted: true, offerTab: 'All' }); this.go('offers'); } },
+      confirmRows: [
+        ['Lot', 'Mixed Returns — 12 Pallets', '14px', '500', 'Inter, sans-serif', '#fff'],
+        ['Fulfilment', 'Freight · buyer pays $1,240', '14px', '500', 'Inter, sans-serif', '#fff'],
+        ['Expires', '48 hours after submission', '14px', '500', 'Inter, sans-serif', '#fff'],
+        ['Your offer', '$' + S.offerAmount, '23px', '600', "'Inter Tight', sans-serif", '#FDF4EC']
+      ].map(c => ({ k: c[0], v: c[1], size: c[2], weight: c[3], font: c[4], bg: c[5] })),
+
+      justSubmitted: S.submitted, submittedAmount: '$' + S.offerAmount,
+      offerSummary: (S.submitted ? '5' : '4') + ' offers · 1 accepted · 2 declined · 1 expired',
+      offerTabs: ['All', 'Pending', 'Accepted', 'Declined'].map(t => ({
+        label: t, set: () => this.setState({ offerTab: t }),
+        bg: S.offerTab === t ? '#211D19' : '#fff', color: S.offerTab === t ? '#FAF7F2' : '#3A342E',
+        border: S.offerTab === t ? '#211D19' : '#E7DFD2'
+      })),
+      offerCols: [['Lot', 'left'], ['Asking', 'right'], ['Your offer', 'right'], ['Submitted', 'right'], ['Status', 'right']]
+        .map(c => ({ label: c[0], align: c[1] })),
+      myOffers,
+
+      timeline, orderTotals,
+      logistics: [
+        ['Pick up from', 'Kestrel Liquidation\n2280 Larkin Circle, Reno, NV 89502'],
+        ['Dock hours', 'Mon–Fri, 7:00 am – 3:00 pm'],
+        ['Load', '12 pallets · 9,400 lbs · Class 100 · 53\' trailer'],
+        ['Deliver to', 'Northgate Surplus\n1140 W Jackson St, Phoenix, AZ 85004']
+      ].map(l => ({ k: l[0], v: l[1] })),
+
+      dealerKpis: [['Live lots', '7', '2 closing today', '#B04A0F'], ['Open offers', '23', '+9 since Monday', '#2F5F45'], ['Sold this month', '$61,400', '11 orders', '#6B6259'], ['Pending payout', '$18,900', 'releases in 4 days', '#6B6259']]
+        .map(k => ({ k: k[0], v: k[1], d: k[2], dc: k[3] })),
+      dealerBadge: S.accepted ? '1 accepted · 4 declined' : '23 offers',
+      dealerOffers,
+
+      footerCols: [
+        { title: 'Buy', links: ['Browse all lots', 'Closing soon', 'How offers work', 'Freight and pickup'] },
+        { title: 'Sell', links: ['Post a lot', 'Dealer verification', 'Fees and payouts', 'Seller guide'] },
+        { title: 'Company', links: ['About Pallet', 'Trust and safety', 'Contact', 'Terms'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

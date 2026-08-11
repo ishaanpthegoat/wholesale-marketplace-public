@@ -1,0 +1,51 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# next
+.next/
+out/
+next-env.d.ts
+
+# production
+build/
+dist/
+
+# testing
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# env — never commit real keys
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# supabase local stack
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+
+# editor / os
+.DS_Store
+*.pem
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# logs
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# misc
+.vercel
+*.tsbuildinfo
+
+# Generated Higgsfield assets are committed on purpose (see docs/ASSETS.md),
+# but raw intermediate renders are not.
+public/generated/_raw/
