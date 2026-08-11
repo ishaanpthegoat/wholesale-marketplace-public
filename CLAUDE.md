@@ -68,14 +68,16 @@ npm run stripe:listen
 - Error surfaces map Postgres codes through `src/lib/errors.ts` to `docs/COPY.md`. Never show a
   raw Postgres message.
 
-## Known environment issues (2026-08-11)
+## Known environment issues (2026-08-11, partially resolved 2026-08-11)
 
 `github.com`, `api.github.com`, `ui.shadcn.com`, and `21st.dev` were all unreachable from this
-machine — DNS resolved, TCP 443 timed out. `registry.npmjs.org` and general web access were
-fine, so this looks like host-level filtering rather than an outage.
+machine at scaffold time — DNS resolved, TCP 443 timed out. `registry.npmjs.org` and general
+web access were fine, so this looked like host-level filtering rather than an outage.
 
-Consequences:
-- The GitHub repo was **not** created. Run `scripts/create-github-repo.sh` once connectivity
-  returns.
-- `npx shadcn@latest add` will fail. The primitives in `src/components/ui/` are hand-written for
-  this reason. Add more by hand from Radix docs rather than debugging the network.
+`github.com` and `api.github.com` came back later the same day — the repo is now live at
+[github.com/ishaanpthegoat/wholesale-marketplace-public](https://github.com/ishaanpthegoat/wholesale-marketplace-public)
+and both commits are pushed.
+
+`ui.shadcn.com` and `21st.dev` were not re-checked after the fix. Verify before assuming
+`npx shadcn@latest add` works — if it still fails, the primitives in `src/components/ui/` are
+hand-written for this reason. Add more by hand from Radix docs rather than debugging the network.

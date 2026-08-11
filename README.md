@@ -66,12 +66,12 @@ the recommendations row.
 **Out:** freight quoting and brokering (fields captured, no carrier integration), messaging UI,
 ratings UI, most admin screens, saved-search alerts, mobile, disputes resolution.
 
-## Known environment issues (2026-08-11)
+## Known environment issues (2026-08-11, partially resolved same day)
 
 `github.com`, `ui.shadcn.com`, and `21st.dev` were unreachable from the machine this was
 scaffolded on — DNS resolved, TCP 443 timed out. npm and general web access were fine.
 
-- The GitHub repo was **not** created. Run `scripts/create-github-repo.sh` when connectivity
-  returns.
-- `npx shadcn@latest add` will fail. The primitives in `src/components/ui/` are hand-written
-  for this reason.
+GitHub connectivity came back later that day; the repo is live at
+[github.com/ishaanpthegoat/wholesale-marketplace-public](https://github.com/ishaanpthegoat/wholesale-marketplace-public).
+`ui.shadcn.com` / `21st.dev` were not re-verified — check before relying on
+`npx shadcn@latest add`. The primitives in `src/components/ui/` are hand-written as a fallback.
